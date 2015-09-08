@@ -7,10 +7,14 @@
     <body>
         <h1>SlackPuppet!</h1>
         <p>Send a message to the #General channel!</p>
-
+        <form action="/sendmsg" method="post">
+            <p>Message: <input type="textbox" name="Message"></p>
+            <input type="Submit" value="Send Message">
+        </form>
 
 
 
         <script src="http://code.jquery.com/jquery.js"></script>
         <script src="/static/js/bootstrap.min.js"></script>
-    
+    </body>
+</html>
