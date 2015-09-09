@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-
 	"bytes"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -20,7 +19,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	message := []byte(r.FormValue("Message"))
 	api_url := "https://devopsgeekweek.slack.com/services/hooks/slackbot?token=" + os.Getenv("SLACK_API_KEY")
-	channel := "%23general"
+	channel := "%23spam"
 	log.Println(api_url)
 	resp, _ := http.Post(api_url+"&channel="+channel, "text/html", bytes.NewBuffer(message))
 	response, _ := ioutil.ReadAll(resp.Body)
