@@ -3,16 +3,20 @@ package main
 import (
 	"fmt"
 
-	//"html/template"
 	"bytes"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	//"path"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	type Page struct {
+		Title string
+		Body  []byte
+	}
+	p := Page{Title: "foo", Body: nil}
 	r.ParseForm()
 	message := []byte(r.FormValue("Message"))
 	api_url := "https://devopsgeekweek.slack.com/services/hooks/slackbot?token=" + os.Getenv("SLACK_API_KEY")
@@ -21,6 +25,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	resp, _ := http.Post(api_url+"&channel="+channel, "text/html", bytes.NewBuffer(message))
 	response, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(response))
+	t, _ := template.ParseFiles("html/index.html")
+	t.Execute(w, p)
 }
 func main() {
 	fs := http.FileServer(http.Dir("static"))
